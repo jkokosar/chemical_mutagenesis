@@ -479,7 +479,7 @@ snv <- function(input_file = NULL, ref_file = system.file("extdata", package="ch
                             } else {codon_variant_ntg[c_id] <- tolower(seqinr::comp(as.character(s_$ALT)))}
 
                             codon_dna_mut = c(codon_dna_mut, paste(codon_variant_ntg, collapse="")) # mutant codon
-                            aa_ = grep(as.character(s_$POS), codon_pos) ; aa_pos = c(aa_pos, aa_) # amino acid position
+                            aa_ = grep(as.character(s_$POS), codon_pos)[1] ; aa_pos = c(aa_pos, aa_) # amino acid position
 
                             codon_variant_translate <- as.character(seqinr::translate(codon_variant))
                             codon_variant_ntg_translate <- as.character(seqinr::translate(codon_variant_ntg))
