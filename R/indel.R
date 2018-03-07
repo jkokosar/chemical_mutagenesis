@@ -268,7 +268,7 @@ indel <- function(input_file = NULL, ref_file = system.file("extdata", package="
         if(dim(vcf_multi_alt_split)[1]>0){
             alt_freq <- dplyr::select(vcf_multi_alt_split, contains("_freq"))
             alt_freq_par <- dplyr::select(alt_freq, contains(names_par)) # frequency of the reference allele in the parental strain
-            depth_ <- dplyr::select(vcf_multiple_alt_split,contains("_DP"))
+            depth_ <- dplyr::select(vcf_multi_alt_split, contains("_DP"))
             depth_par <- dplyr::select(depth_,contains(names_par)) # read depth in the parental strain
             for(n_ in names_mut){
                 alt_freq_tmp <- dplyr::select(alt_freq, contains(n_)) # frequency of the reference allele in a given mutant strain
@@ -277,7 +277,7 @@ indel <- function(input_file = NULL, ref_file = system.file("extdata", package="
                 freq_diff_l <- rowSums(freq_diff_l) == length(col_)
                 read_depth_l <- depth_par >= read_depth & depth_tmp >= read_depth # the read depth threshold
                 pass_ <- freq_diff_l & read_depth_l # variants that pass both the frequency difference and read depth threshold
-                vcf_filter_tmp <- vcf_multiple_alt_split_split[pass_,]
+                vcf_filter_tmp <- vcf_multi_alt_split[pass_,]
 
                 if(dim(vcf_filter_tmp)[1] > 0) {
                     # Add a column with strain names
