@@ -683,11 +683,9 @@ snv <- function(input_file = NULL, ref_file = system.file("extdata", package="ch
             write.table(var_filtered_concise, paste(out_dir,"/","variant_filtered.txt",sep=""), sep="\t", quote=F, row.names=F)
 
             #vcf file for IGV viewer
-            vcf_one_alt_idx = paste(vcf_one_alt$CHROM,vcf_one_alt$POS, sep=":")
-            var_filtered_concise_idx = paste(var_filtered_concise$CHROM,var_filtered_concise$POS, sep=":")
-            var_filtered_concise_idx = unique(var_filtered_concise_idx)
-            idx = grep(paste(var_filtered_concise_idx,collapse = "|"),vcf_one_alt_idx)
-            vcf_one_alt = vcf_one_alt[idx,]; names(vcf_one_alt)[1] = "#CHROM"
+            chrom_ids = vcf_one_alt$CHROM %in% var_filtered_concise$CHROM
+            pos_ids = vcf_one_alt$POS %in% var_filtered_concise$POS
+            vcf_one_alt = vcf_one_alt[chrom_ids & pos_ids ,] ; names(vcf_one_alt)[1] = "#CHROM"
             vcf_version <- readLines(input_file,n = 1)
             writeLines(vcf_version,con =  paste(out_dir,"/","variants.vcf",sep=""))
             write.table(vcf_one_alt, paste(out_dir,"/","variants.vcf",sep=""), sep="\t", quote=F, row.names=F,append = T)
